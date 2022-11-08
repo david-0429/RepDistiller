@@ -9,11 +9,11 @@ from PIL import Image
 
 """
 mean = {
-    'cifar100': (0.5071, 0.4867, 0.4408),
+    'cifar100': (0.4914, 0.4822, 0.4465),
 }
 
 std = {
-    'cifar100': (0.2675, 0.2565, 0.2761),
+    'cifar100': (0.2023, 0.1994, 0.2010),
 }
 """
 
@@ -44,18 +44,61 @@ class CIFAR100Instance(datasets.CIFAR100):
         return img, target, index
 
 
-def get_cifar100_dataloaders(batch_size=128, num_workers=8, is_instance=False):
+def get_cifar100_dataloaders_sample(batch_size=128, num_workers=8, k=4096, mode='exact',
+                                    is_sample=True, percent=1.0):
     """
     cifar 100
     """
     data_folder = get_data_folder()
 
-    train_transform = transforms.Compose([
-        transforms.RandomCrop(32, padding=4),
-        transforms.RandomHorizontalFlip(),
-        transforms.ToTensor(),
-        transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
-    ])
+    if agrs.('DA') == 'filp_crop':
+      train_transform = transforms.Compose([
+          transforms.RandomCrop(32, padding=4),
+         transforms.RandomHorizontalFlip(),
+         transforms.ToTensor(),
+         transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
+      ])
+
+    if agrs.('DA') == 'AA':
+      train_transform = transforms.Compose([
+          transforms.RandomCrop(32, padding=4),
+         transforms.RandomHorizontalFlip(),
+         transforms.ToTensor(),
+         transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
+      ])
+
+    if agrs.('DA') == 'RA':
+      train_transform = transforms.Compose([
+          transforms.RandomCrop(32, padding=4),
+         transforms.RandomHorizontalFlip(),
+         transforms.ToTensor(),
+         transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
+      ])
+
+    if agrs.('DA') == 'mixup':
+      train_transform = transforms.Compose([
+          transforms.RandomCrop(32, padding=4),
+         transforms.RandomHorizontalFlip(),
+         transforms.ToTensor(),
+         transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
+      ])
+
+    if agrs.('DA') == 'cutmix':
+      train_transform = transforms.Compose([
+          transforms.RandomCrop(32, padding=4),
+         transforms.RandomHorizontalFlip(),
+         transforms.ToTensor(),
+         transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
+      ])  
+
+    if agrs.('DA') == 'cutmix_pick':
+      train_transform = transforms.Compose([
+          transforms.RandomCrop(32, padding=4),
+         transforms.RandomHorizontalFlip(),
+         transforms.ToTensor(),
+         transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
+      ])  
+
     test_transform = transforms.Compose([
         transforms.ToTensor(),
         transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
