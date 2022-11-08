@@ -168,7 +168,9 @@ class CIFAR100InstanceSample(datasets.CIFAR100):
             sample_idx = np.hstack((np.asarray([pos_idx]), neg_idx))
             return img, target, index, sample_idx
 
+# Be careful!! only for CRD!!
 
+#-------------------------------------------------------------------------------------------------------#
 def get_cifar100_dataloaders_sample(batch_size=128, num_workers=8, k=4096, mode='exact',
                                     is_sample=True, percent=1.0):
     """
@@ -186,6 +188,8 @@ def get_cifar100_dataloaders_sample(batch_size=128, num_workers=8, k=4096, mode=
         transforms.ToTensor(),
         transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
     ])
+    
+#-------------------------------------------------------------------------------------------------------#
 
     train_set = CIFAR100InstanceSample(root=data_folder,
                                        download=True,
