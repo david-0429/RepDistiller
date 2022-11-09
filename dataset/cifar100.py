@@ -7,6 +7,8 @@ from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from PIL import Image
 
+from Data_Augmentation.Auto_Augment import AutoAugment
+
 """
 mean = {
     'cifar100': (0.4914, 0.4822, 0.4465),
