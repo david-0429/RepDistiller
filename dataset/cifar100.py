@@ -8,6 +8,7 @@ from torchvision import datasets, transforms
 from PIL import Image
 
 from Data_Augmentation.Auto_Augment import AutoAugment
+from train_student import parse_option
 
 """
 mean = {
@@ -55,17 +56,16 @@ def get_cifar100_dataloaders(batch_size=128, num_workers=8, is_instance=False):
     
     train_transform = []
     
-    if args.crop:
+    if opt.crop:
         train_transform.append(RandomCrop(32, padding=4))
         
-    if args.flip:
+    if opt.flip:
         train_transform.append(RandomHorizontalFlip())
         
-    if args.auto_augment:
+    if opt.auto_augment:
         train_transform.append(AutoAugment())
         
-    if args.cutout:
-        train_transform.append(Cutout())
+
         
     train_transform.extend([
           transforms.ToTensor(),
