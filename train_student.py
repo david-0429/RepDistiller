@@ -369,7 +369,7 @@ if __name__ == '__main__':
     # Set the project where this run will be logged
     project="knowledge-distillation-Data-Augmentation", 
     # We pass a run name (otherwise it’ll be randomly assigned, like sunshine-lollypop-10)
-    name=f"{opt.flip}+{opt.crop}+{opt.AA}+{opt.RA}+{opt.cutout}+{opt.mixup}+{opt.cutmix}_{opt.kd_T}_{get_timestamp()}", 
+    name=f"{opt.distill}_{opt.alpha}_{opt.augment}_{get_timestamp()}", 
     # Track hyperparameters and run metadata
     )
     
