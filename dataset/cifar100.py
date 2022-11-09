@@ -74,7 +74,7 @@ def get_cifar100_dataloaders(batch_size=128, num_workers=8, is_instance=False):
     ])
     train_transform = transforms.Compose(train_transform)
 
-'''
+    '''
     if agrs.('DA') == 'non':
       train_transform = transforms.Compose([
          transforms.ToTensor(),
@@ -128,7 +128,7 @@ def get_cifar100_dataloaders(batch_size=128, num_workers=8, is_instance=False):
          transforms.ToTensor(),
          transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
       ])  
-'''
+    '''
 
     test_transform = transforms.Compose([
         transforms.ToTensor(),
