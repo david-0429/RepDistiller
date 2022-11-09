@@ -8,6 +8,8 @@ import os
 import argparse
 import socket
 import time
+import wandb
+from datetime import datetime
 
 import tensorboard_logger as tb_logger
 import torch
@@ -132,6 +134,16 @@ def parse_option():
 
     return opt
 
+print("wandb init")
+def get_timestamp():
+    return datetime.now().strftime("%b%d_%H-%M-%S")
+wandb.init(
+    # Set the project where this run will be logged
+    project="knowledge-distillation-Data-Augmentation", 
+    # We pass a run name (otherwise it’ll be randomly assigned, like sunshine-lollypop-10)
+    name=f"{opt.flip}+{opt.crop}+{opt.AA}+{opt.RA}+{opt.cutout}+{opt.mixup}+{opt.cutmix}_{get_timestamp()}", 
+    # Track hyperparameters and run metadata
+)
 
 def get_teacher_name(model_path):
     """parse teacher name"""
@@ -297,6 +309,8 @@ def main():
     # validate teacher accuracy
     teacher_acc, _, _ = validate(val_loader, model_t, criterion_cls, opt)
     print('teacher accuracy: ', teacher_acc)
+    
+    wandb.log({"teacher_acc": teacher_acc})
 
     # routine
     for epoch in range(1, opt.epochs + 1):
@@ -317,6 +331,8 @@ def main():
         logger.log_value('test_acc', test_acc, epoch)
         logger.log_value('test_loss', test_loss, epoch)
         logger.log_value('test_acc_top5', tect_acc_top5, epoch)
+        
+        wandb.log({"epoch/val_acc": test_acc, "epoch/val_loss": test_loss, "epoch/trn_loss": train_loss, "epoch": epoch})
 
         # save the best model
         if test_acc > best_acc:
@@ -356,3 +372,5 @@ def main():
 
 if __name__ == '__main__':
     main()
+    
+wandb.finish()
