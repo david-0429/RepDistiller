@@ -63,7 +63,16 @@ def parse_option():
                                  'vgg8', 'vgg11', 'vgg13', 'vgg16', 'vgg19', 'ResNet50',
                                  'MobileNetV2', 'ShuffleV1', 'ShuffleV2'])
     parser.add_argument('--path_t', type=str, default=None, help='teacher model snapshot')
-
+    
+    #Data Augmentation
+    parser.add_argument('--filp', default=False, type=str2bool)
+    parser.add_argument('--crop', default=False, type=str2bool)
+    parser.add_argument('--AA', default=False, type=str2bool)
+    parser.add_argument('--RA', default=False, type=str2bool)
+    parser.add_argument('--mixup', default=False, type=str2bool)
+    parser.add_argument('--cutmix', default=False, type=str2bool)
+    parser.add_argument('--cutmix_pick', default=False, type=str2bool)
+    
     # distillation
     parser.add_argument('--distill', type=str, default='kd', choices=['kd', 'hint', 'attention', 'similarity',
                                                                       'correlation', 'vid', 'crd', 'kdsvd', 'fsp',
