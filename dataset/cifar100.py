@@ -6,8 +6,11 @@ import numpy as np
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from PIL import Image
+
 from torchvision.transforms import RandAugment
 from torchvision.transforms import AutoAugment
+from torchvision.transforms import RandomCrop
+from torchvision.transforms import RandomHorizontalFlip
 
 from Data_Augmentation.AutoAugment import AutoAugment
 from Data_Augmentation.RandAugment import RandAugment
@@ -65,19 +68,17 @@ def get_cifar100_dataloaders(batch_size=128, num_workers=8, is_instance=False):
     if opt.crop:
         transform.append(RandomCrop(32, padding=4))
         
-    elif opt.flip:
+    if opt.flip:
         transform.append(RandomHorizontalFlip())
         
-    elif opt.AA:
+    if opt.AA:
         transform.append(AutoAugment())
         
     #RandAugment : N = {1, 2} and M = {2, 6, 10, 14}  
     #best in WideResNet-28-2 and Wide-ResNet-28-10 : {1,2}, {2, 14}     Can more strong M??
-    elif opt.RA:
+    if opt.RA:
         transform.append(RandAugment(2, 14))
         
-    else:
-        print("The Augmentation you entered does not exist")
         
     transform.extend([
           transforms.ToTensor(),
