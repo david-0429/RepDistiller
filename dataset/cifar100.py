@@ -12,8 +12,8 @@ from torchvision.transforms import AutoAugment
 from torchvision.transforms import RandomCrop
 from torchvision.transforms import RandomHorizontalFlip
 
-from Data_Augmentation.AutoAugment import AutoAugment
-from Data_Augmentation.RandAugment import RandAugment
+#from Data_Augmentation.AutoAugment import AutoAugment
+#from Data_Augmentation.RandAugment import RandAugment
 
 
 """
@@ -52,15 +52,15 @@ class CIFAR100Instance(datasets.CIFAR100):
         return img, target, index
 
 
+'''
 def get_cifar100_dataloaders(batch_size=128, num_workers=8, is_instance=False):
     
     from train_student import parse_option
     opt = parse_option()
-    
+
     """
     cifar 100
     """
-    
     data_folder = get_data_folder()
     
     transform = []
@@ -78,13 +78,82 @@ def get_cifar100_dataloaders(batch_size=128, num_workers=8, is_instance=False):
     #best in WideResNet-28-2 and Wide-ResNet-28-10 : {1,2}, {2, 14}     Can more strong M??
     if opt.RA:
         transform.append(RandAugment(2, 14))
-        
+
         
     transform.extend([
           transforms.ToTensor(),
           transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
     ])
     train_transform = transforms.Compose(transform)
+'''
+
+def get_cifar100_dataloaders(batch_size=128, num_workers=8, is_instance=False):
+    
+    from train_student import parse_option
+    opt = parse_option()
+
+    """
+    cifar 100
+    """
+    data_folder = get_data_folder()   
+
+    if opt.Augment == "non":
+        train_transform = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        ])
+
+    elif opt.Augment == "flip_crop":
+        train_transform = transforms.Compose([
+            transforms.RandomCrop(32, padding=4),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        ])
+
+    elif opt.Augment == "flip_crop_AA":
+        train_transform = transforms.Compose([
+            transforms.RandomCrop(32, padding=4),
+            transforms.RandomHorizontalFlip(),
+            transforms.AutoAugment(),
+            transforms.ToTensor(),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        ])
+
+#RandAugment : N = {1, 2} and M = {2, 6, 10, 14}  
+#best {N, M} in WideResNet-28-2 and Wide-ResNet-28-10 : {1,2}, {2, 14}     Can more strong M??       
+    elif opt.Augment == "flip_crop_RA":
+        train_transform = transforms.Compose([
+            transforms.RandomCrop(32, padding=4),
+            transforms.RandomHorizontalFlip(),
+            transforms.RandAugment(2, 14),
+            transforms.ToTensor(),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        ])
+
+    elif opt.Augment == "flip_crop_mixup":
+        train_transform = transforms.Compose([
+            transforms.RandomCrop(32, padding=4),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        ])
+
+    elif opt.Augment == "flip_crop_cutmix":
+        train_transform = transforms.Compose([
+            transforms.RandomCrop(32, padding=4),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        ])    
+
+    elif opt.Augment == "flip_crop_cutmixpick":
+        train_transform = transforms.Compose([
+            transforms.RandomCrop(32, padding=4),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        ])
 
     test_transform = transforms.Compose([
         transforms.ToTensor(),
