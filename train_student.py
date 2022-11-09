@@ -79,7 +79,7 @@ def parse_option():
     parser.add_argument('--cutmix_pick', default=False, type=str2bool)
     '''
     parser.add_argument('--augment', default='flip_crop', type=str, choices=['non', 'flip_crop', 'flip_crop_AA', 'flip_crop_RA', 
-                                                                             'flip_crop_mixup', 'flip_crop_cutmix', 'flip_crop_cutmixpick']
+                                                                             'flip_crop_mixup', 'flip_crop_cutmix', 'flip_crop_cutmixpick'])
     
     # distillation
     parser.add_argument('--distill', type=str, default='kd', choices=['kd', 'hint', 'attention', 'similarity',
@@ -365,6 +365,7 @@ def main():
 
 
 if __name__ == '__main__':
+    opt = parse_option()
     wandb.init(
     # Set the project where this run will be logged
     project="knowledge-distillation-Data-Augmentation", 
