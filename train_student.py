@@ -68,7 +68,7 @@ def parse_option():
     parser.add_argument('--path_t', type=str, default=None, help='teacher model snapshot')
     
     #Data Augmentation
-    parser.add_argument('--filp', default=False, type=str2bool)
+    parser.add_argument('--flip', default=False, type=str2bool)
     parser.add_argument('--crop', default=False, type=str2bool)
     parser.add_argument('--AA', default=False, type=str2bool)
     parser.add_argument('--RA', default=False, type=str2bool)
