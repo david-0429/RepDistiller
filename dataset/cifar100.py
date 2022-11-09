@@ -7,7 +7,9 @@ from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from PIL import Image
 
-from Data_Augmentation.Auto_Augment import AutoAugment
+from Data_Augmentation.AutoAugment import AutoAugment
+from Data_Augmentation.RandAugment import RandAugment
+
 from train_student import parse_option
 
 """
@@ -20,6 +22,7 @@ std = {
 }
 """
 
+opt = parse_option()
 
 def get_data_folder():
     """
@@ -54,87 +57,37 @@ def get_cifar100_dataloaders(batch_size=128, num_workers=8, is_instance=False):
     """
     data_folder = get_data_folder()
     
-    train_transform = []
+    transform = []
     
     if opt.crop:
-        train_transform.append(RandomCrop(32, padding=4))
+        transform.append(RandomCrop(32, padding=4))
         
-    if opt.flip:
-        train_transform.append(RandomHorizontalFlip())
+    elif opt.flip:
+        transform.append(RandomHorizontalFlip())
         
-    if opt.auto_augment:
-        train_transform.append(AutoAugment())
+    elif opt.AA:
+        transform.append(AutoAugment())
         
-
+    #RandAugment : N = {1, 2} and M = {2, 6, 10, 14}  
+    #best in WideResNet-28-2 and Wide-ResNet-28-10 : {1,2}, {2, 14}     Can more strong M??
+    elif opt.RA:
+        transform.append(RandAugment(2, 14))
         
-    train_transform.extend([
+    else:
+        print("The Augmentation you entered does not exist")
+        
+    transform.extend([
           transforms.ToTensor(),
-          transforms.Normalize((0.4914, 0.4822, 0.4465),
-                               (0.2023, 0.1994, 0.2010)),
+          transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
     ])
-    train_transform = transforms.Compose(train_transform)
-
-    '''
-    if agrs.('DA') == 'non':
-      train_transform = transforms.Compose([
-         transforms.ToTensor(),
-         transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
-      ])
-    
-    if agrs.('DA') == 'filp_crop':
-      train_transform = transforms.Compose([
-         transforms.RandomCrop(32, padding=4),
-         transforms.RandomHorizontalFlip(),
-         transforms.ToTensor(),
-         transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
-      ])
-
-    if agrs.('DA') == 'AA':
-      train_transform = transforms.Compose([
-         transforms.RandomCrop(32, padding=4),
-         transforms.RandomHorizontalFlip(),
-         transforms.ToTensor(),
-         transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
-      ])
-
-    if agrs.('DA') == 'RA':
-      train_transform = transforms.Compose([
-         transforms.RandomCrop(32, padding=4),
-         transforms.RandomHorizontalFlip(),
-         transforms.ToTensor(),
-         transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
-      ])
-
-    if agrs.('DA') == 'mixup':
-      train_transform = transforms.Compose([
-         transforms.RandomCrop(32, padding=4),
-         transforms.RandomHorizontalFlip(),
-         transforms.ToTensor(),
-         transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
-      ])
-
-    if agrs.('DA') == 'cutmix':
-      train_transform = transforms.Compose([
-         transforms.RandomCrop(32, padding=4),
-         transforms.RandomHorizontalFlip(),
-         transforms.ToTensor(),
-         transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
-      ])  
-
-    if agrs.('DA') == 'cutmix_pick':
-      train_transform = transforms.Compose([
-         transforms.RandomCrop(32, padding=4),
-         transforms.RandomHorizontalFlip(),
-         transforms.ToTensor(),
-         transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
-      ])  
-    '''
+    train_transform = transforms.Compose(transform)
 
     test_transform = transforms.Compose([
         transforms.ToTensor(),
-        transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
+        transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
     ])
 
+    
     if is_instance:
         train_set = CIFAR100Instance(root=data_folder,
                                      download=True,
