@@ -68,6 +68,7 @@ def parse_option():
     parser.add_argument('--path_t', type=str, default=None, help='teacher model snapshot')
     
     #Data Augmentation
+    '''
     parser.add_argument('--flip', default=False, type=str2bool)
     parser.add_argument('--crop', default=False, type=str2bool)
     parser.add_argument('--AA', default=False, type=str2bool)
@@ -76,6 +77,9 @@ def parse_option():
     parser.add_argument('--mixup', default=False, type=str2bool)
     parser.add_argument('--cutmix', default=False, type=str2bool)
     parser.add_argument('--cutmix_pick', default=False, type=str2bool)
+    '''
+    parser.add_argument('--augment', default='flip_crop', type=str, choices=['non', 'flip_crop', 'flip_crop_AA', 'flip_crop_RA', 
+                                                                             'flip_crop_mixup', 'flip_crop_cutmix', 'flip_crop_cutmixpick']
     
     # distillation
     parser.add_argument('--distill', type=str, default='kd', choices=['kd', 'hint', 'attention', 'similarity',
