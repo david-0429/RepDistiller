@@ -305,6 +305,8 @@ def main():
     # validate teacher accuracy
     teacher_acc, _, _ = validate(val_loader, model_t, criterion_cls, opt)
     print('teacher accuracy: ', teacher_acc)
+    
+    wandb.log({"teacher_acc": teacher_acc})
 
     # routine
     for epoch in range(1, opt.epochs + 1):
