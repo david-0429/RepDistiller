@@ -23,6 +23,7 @@ from models.util import Connector, Translator, Paraphraser
 from dataset.cifar100 import get_cifar100_dataloaders, get_cifar100_dataloaders_sample
 
 from helper.util import adjust_learning_rate
+from helper.util import str2bool
 
 from distiller_zoo import DistillKL, HintLoss, Attention, Similarity, Correlation, VIDLoss, RKDLoss
 from distiller_zoo import PKT, ABLoss, FactorTransfer, KDSVD, FSP, NSTLoss
