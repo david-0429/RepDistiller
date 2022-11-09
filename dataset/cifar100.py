@@ -12,7 +12,6 @@ from torchvision.transforms import AutoAugment
 from Data_Augmentation.AutoAugment import AutoAugment
 from Data_Augmentation.RandAugment import RandAugment
 
-from train_student import parse_option
 
 """
 mean = {
@@ -23,8 +22,6 @@ std = {
     'cifar100': (0.2023, 0.1994, 0.2010),
 }
 """
-
-opt = parse_option()
 
 def get_data_folder():
     """
@@ -54,9 +51,13 @@ class CIFAR100Instance(datasets.CIFAR100):
 
 def get_cifar100_dataloaders(batch_size=128, num_workers=8, is_instance=False):
     
+    from train_student import parse_option
+    opt = parse_option()
+    
     """
     cifar 100
     """
+    
     data_folder = get_data_folder()
     
     transform = []
