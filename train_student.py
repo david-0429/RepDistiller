@@ -69,6 +69,7 @@ def parse_option():
     parser.add_argument('--crop', default=False, type=str2bool)
     parser.add_argument('--AA', default=False, type=str2bool)
     parser.add_argument('--RA', default=False, type=str2bool)
+    parser.add_argument('--cutout', default=False, type=str2bool)
     parser.add_argument('--mixup', default=False, type=str2bool)
     parser.add_argument('--cutmix', default=False, type=str2bool)
     parser.add_argument('--cutmix_pick', default=False, type=str2bool)
