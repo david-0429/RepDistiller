@@ -53,23 +53,28 @@ def get_cifar100_dataloaders_sample(batch_size=128, num_workers=8, k=4096, mode=
     """
     data_folder = get_data_folder()
     
-    transform_train = []
+    train_transform = []
     
-    if args.crop
-          transforms.RandomCrop(32, padding=4),
-          transforms.RandomHorizontalFlip(),
-    if args.auto_augment:
-        transform_train.append(AutoAugment())
-    if args.cutout:
-        transform_train.append(Cutout())
+    if args.crop:
+        train_transform.append(RandomCrop(32, padding=4))
         
-    transform_train.extend([
+    if args.flip:
+        train_transform.append(RandomHorizontalFlip())
+        
+    if args.auto_augment:
+        train_transform.append(AutoAugment())
+        
+    if args.cutout:
+        train_transform.append(Cutout())
+        
+    train_transform.extend([
           transforms.ToTensor(),
           transforms.Normalize((0.4914, 0.4822, 0.4465),
                                (0.2023, 0.1994, 0.2010)),
     ])
-    transform_train = transforms.Compose(transform_train)
+    train_transform = transforms.Compose(train_transform)
 
+'''
     if agrs.('DA') == 'non':
       train_transform = transforms.Compose([
          transforms.ToTensor(),
@@ -123,6 +128,7 @@ def get_cifar100_dataloaders_sample(batch_size=128, num_workers=8, k=4096, mode=
          transforms.ToTensor(),
          transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
       ])  
+'''
 
     test_transform = transforms.Compose([
         transforms.ToTensor(),
