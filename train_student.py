@@ -310,6 +310,13 @@ def main():
     teacher_acc, _, _ = validate(val_loader, model_t, criterion_cls, opt)
     print('teacher accuracy: ', teacher_acc)
     
+    wandb.init(
+    # Set the project where this run will be logged
+    project="knowledge-distillation-Data-Augmentation", 
+    # We pass a run name (otherwise it’ll be randomly assigned, like sunshine-lollypop-10)
+    name=f"{opt.flip}+{opt.crop}+{opt.AA}+{opt.RA}+{opt.cutout}+{opt.mixup}+{opt.cutmix}_{opt.kd_T}_{get_timestamp()}", 
+    # Track hyperparameters and run metadata
+    )
     wandb.log({"teacher_acc": teacher_acc})
 
     # routine
