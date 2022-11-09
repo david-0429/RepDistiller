@@ -6,6 +6,8 @@ import numpy as np
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from PIL import Image
+from torchvision.transforms import RandAugment
+from torchvision.transforms import AutoAugment
 
 from Data_Augmentation.AutoAugment import AutoAugment
 from Data_Augmentation.RandAugment import RandAugment
