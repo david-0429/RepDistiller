@@ -2,8 +2,19 @@ from __future__ import print_function
 
 import torch
 import numpy as np
+import random
+import math
+from PIL import Image
 
 
+def str2bool(v):
+    if v.lower() in ['true', 1]:
+        return True
+    elif v.lower() in ['false', 0]:
+        return False
+    else:
+        raise argparse.ArgumentTypeError('Boolean value expected.')
+        
 def adjust_learning_rate_new(epoch, optimizer, LUT):
     """
     new learning rate schedule according to RotNet
