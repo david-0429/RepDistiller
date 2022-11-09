@@ -51,20 +51,22 @@ def get_cifar100_dataloaders_sample(batch_size=128, num_workers=8, k=4096, mode=
     """
     data_folder = get_data_folder()
     
-      transform_train = [
-            transforms.RandomCrop(32, padding=4),
-            transforms.RandomHorizontalFlip(),
-        ]
-        if args.auto_augment:
-            transform_train.append(AutoAugment())
-        if args.cutout:
-            transform_train.append(Cutout())
-        transform_train.extend([
-            transforms.ToTensor(),
-            transforms.Normalize((0.4914, 0.4822, 0.4465),
-                                 (0.2023, 0.1994, 0.2010)),
-        ])
-        transform_train = transforms.Compose(transform_train)
+    transform_train = []
+    
+    if args.crop
+          transforms.RandomCrop(32, padding=4),
+          transforms.RandomHorizontalFlip(),
+    if args.auto_augment:
+        transform_train.append(AutoAugment())
+    if args.cutout:
+        transform_train.append(Cutout())
+        
+    transform_train.extend([
+          transforms.ToTensor(),
+          transforms.Normalize((0.4914, 0.4822, 0.4465),
+                               (0.2023, 0.1994, 0.2010)),
+    ])
+    transform_train = transforms.Compose(transform_train)
 
     if agrs.('DA') == 'non':
       train_transform = transforms.Compose([
