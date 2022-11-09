@@ -97,13 +97,13 @@ def get_cifar100_dataloaders(batch_size=128, num_workers=8, is_instance=False):
     """
     data_folder = get_data_folder()   
 
-    if opt.Augment == "non":
+    if opt.augment == "non":
         train_transform = transforms.Compose([
             transforms.ToTensor(),
             transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
         ])
 
-    elif opt.Augment == "flip_crop":
+    elif opt.augment == "flip_crop":
         train_transform = transforms.Compose([
             transforms.RandomCrop(32, padding=4),
             transforms.RandomHorizontalFlip(),
@@ -111,7 +111,7 @@ def get_cifar100_dataloaders(batch_size=128, num_workers=8, is_instance=False):
             transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
         ])
 
-    elif opt.Augment == "flip_crop_AA":
+    elif opt.augment == "flip_crop_AA":
         train_transform = transforms.Compose([
             transforms.RandomCrop(32, padding=4),
             transforms.RandomHorizontalFlip(),
@@ -122,7 +122,7 @@ def get_cifar100_dataloaders(batch_size=128, num_workers=8, is_instance=False):
 
 #RandAugment : N = {1, 2} and M = {2, 6, 10, 14}  
 #best {N, M} in WideResNet-28-2 and Wide-ResNet-28-10 : {1,2}, {2, 14}     Can more strong M??       
-    elif opt.Augment == "flip_crop_RA":
+    elif opt.augment == "flip_crop_RA":
         train_transform = transforms.Compose([
             transforms.RandomCrop(32, padding=4),
             transforms.RandomHorizontalFlip(),
@@ -131,7 +131,7 @@ def get_cifar100_dataloaders(batch_size=128, num_workers=8, is_instance=False):
             transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
         ])
 
-    elif opt.Augment == "flip_crop_mixup":
+    elif opt.augment == "flip_crop_mixup":
         train_transform = transforms.Compose([
             transforms.RandomCrop(32, padding=4),
             transforms.RandomHorizontalFlip(),
@@ -139,7 +139,7 @@ def get_cifar100_dataloaders(batch_size=128, num_workers=8, is_instance=False):
             transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
         ])
 
-    elif opt.Augment == "flip_crop_cutmix":
+    elif opt.augment == "flip_crop_cutmix":
         train_transform = transforms.Compose([
             transforms.RandomCrop(32, padding=4),
             transforms.RandomHorizontalFlip(),
@@ -147,7 +147,7 @@ def get_cifar100_dataloaders(batch_size=128, num_workers=8, is_instance=False):
             transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
         ])    
 
-    elif opt.Augment == "flip_crop_cutmixpick":
+    elif opt.augment == "flip_crop_cutmixpick":
         train_transform = transforms.Compose([
             transforms.RandomCrop(32, padding=4),
             transforms.RandomHorizontalFlip(),
