@@ -46,8 +46,8 @@ class CIFAR100Instance(datasets.CIFAR100):
         return img, target, index
 
 
-def get_cifar100_dataloaders_sample(batch_size=128, num_workers=8, k=4096, mode='exact',
-                                    is_sample=True, percent=1.0):
+def get_cifar100_dataloaders(batch_size=128, num_workers=8, is_instance=False):
+    
     """
     cifar 100
     """
