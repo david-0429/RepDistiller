@@ -50,10 +50,31 @@ def get_cifar100_dataloaders_sample(batch_size=128, num_workers=8, k=4096, mode=
     cifar 100
     """
     data_folder = get_data_folder()
+    
+      transform_train = [
+            transforms.RandomCrop(32, padding=4),
+            transforms.RandomHorizontalFlip(),
+        ]
+        if args.auto_augment:
+            transform_train.append(AutoAugment())
+        if args.cutout:
+            transform_train.append(Cutout())
+        transform_train.extend([
+            transforms.ToTensor(),
+            transforms.Normalize((0.4914, 0.4822, 0.4465),
+                                 (0.2023, 0.1994, 0.2010)),
+        ])
+        transform_train = transforms.Compose(transform_train)
 
+    if agrs.('DA') == 'non':
+      train_transform = transforms.Compose([
+         transforms.ToTensor(),
+         transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
+      ])
+    
     if agrs.('DA') == 'filp_crop':
       train_transform = transforms.Compose([
-          transforms.RandomCrop(32, padding=4),
+         transforms.RandomCrop(32, padding=4),
          transforms.RandomHorizontalFlip(),
          transforms.ToTensor(),
          transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
@@ -61,7 +82,7 @@ def get_cifar100_dataloaders_sample(batch_size=128, num_workers=8, k=4096, mode=
 
     if agrs.('DA') == 'AA':
       train_transform = transforms.Compose([
-          transforms.RandomCrop(32, padding=4),
+         transforms.RandomCrop(32, padding=4),
          transforms.RandomHorizontalFlip(),
          transforms.ToTensor(),
          transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
@@ -69,7 +90,7 @@ def get_cifar100_dataloaders_sample(batch_size=128, num_workers=8, k=4096, mode=
 
     if agrs.('DA') == 'RA':
       train_transform = transforms.Compose([
-          transforms.RandomCrop(32, padding=4),
+         transforms.RandomCrop(32, padding=4),
          transforms.RandomHorizontalFlip(),
          transforms.ToTensor(),
          transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
@@ -77,7 +98,7 @@ def get_cifar100_dataloaders_sample(batch_size=128, num_workers=8, k=4096, mode=
 
     if agrs.('DA') == 'mixup':
       train_transform = transforms.Compose([
-          transforms.RandomCrop(32, padding=4),
+         transforms.RandomCrop(32, padding=4),
          transforms.RandomHorizontalFlip(),
          transforms.ToTensor(),
          transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
@@ -85,7 +106,7 @@ def get_cifar100_dataloaders_sample(batch_size=128, num_workers=8, k=4096, mode=
 
     if agrs.('DA') == 'cutmix':
       train_transform = transforms.Compose([
-          transforms.RandomCrop(32, padding=4),
+         transforms.RandomCrop(32, padding=4),
          transforms.RandomHorizontalFlip(),
          transforms.ToTensor(),
          transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
@@ -93,7 +114,7 @@ def get_cifar100_dataloaders_sample(batch_size=128, num_workers=8, k=4096, mode=
 
     if agrs.('DA') == 'cutmix_pick':
       train_transform = transforms.Compose([
-          transforms.RandomCrop(32, padding=4),
+         transforms.RandomCrop(32, padding=4),
          transforms.RandomHorizontalFlip(),
          transforms.ToTensor(),
          transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761)),
